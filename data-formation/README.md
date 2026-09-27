@@ -11,7 +11,7 @@ The raw data was collected from [Kaggle](https://www.kaggle.com/datasets/adiamaa
 
 ## Data Preprocessing Workflow (`data_cleaner.py`)
 
-Individual subtitle sentences (often numbering over 1,000 per movie) cannot be classified effectively in isolation. The script `data_cleaner.py` performs the following steps:
+Individual subtitle sentences cannot be classified effectively in isolation. The script `data_cleaner.py` performs the following steps:
 
 1. **Missing Value Handling:** Replaces `NaN` or empty text values with empty strings to prevent execution errors.
 2. **Text Aggregation:** Groups all subtitle lines belonging to the same `imdb_id` and concatenates them into a single continuous text string (`full_subtitles`).
