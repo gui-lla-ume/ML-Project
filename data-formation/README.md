@@ -20,7 +20,7 @@ Individual subtitle sentences cannot be classified effectively in isolation. The
 
 ## How to Reproduce
 
-1. Download `movies_meta.csv` and `movies_subtitles.csv` from the Kaggle source.
+1. Download `movies_meta.csv` and `movies_subtitles.csv` from the [Kaggle source](https://www.kaggle.com/datasets/adiamaan/movie-subtitle-dataset/suggestions).
 2. Place both files in the root or data directory.
 3. Run the processing script:
 
