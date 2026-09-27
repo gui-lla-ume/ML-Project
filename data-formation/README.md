@@ -4,7 +4,7 @@ This folder contains the data cleaning and preparation pipeline used to transfor
 
 ## Dataset Overview (Kaggle)
 
-The raw data was collected from Kaggle and consists of two primary files:
+The raw data was collected from [Kaggle](https://www.kaggle.com/datasets/adiamaan/movie-subtitle-dataset) and consists of two primary files:
 
 1. **`movies_meta.csv`**: Contains IMDb metadata for **4,693 movies**, including movie IDs (`imdb_id`), titles (`title`), and assigned genres (`genres`).
 2. **`movies_subtitles.csv`**: Contains subtitle lines broken down sentence by sentence, linked to each movie via `imdb_id`.
