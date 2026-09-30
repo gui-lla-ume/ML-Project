@@ -2,7 +2,6 @@ import ast
 import json
 import pandas as pd
 
-
 def extract_genre_names(val):
     # Handle NaN or None
     if pd.isna(val) or val is None:
