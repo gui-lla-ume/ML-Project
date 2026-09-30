@@ -4,12 +4,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 PATH_TO_CSV = "../data-formation/dataset.csv"
 
-'''
-def load_subtitles():
-  dataset = pd.read_csv(PATH_TO_CSV)
-  subtitles = dataset["full_subtitles"]
-  return subtitles
-'''
 def load_dataset():
   dataset = pd.read_csv(PATH_TO_CSV)
   return dataset
@@ -65,9 +59,11 @@ def calculate_tfidf(current_movie_words, inverse_document_frequency):
   term_frequency = calculate_term_frequency(current_movie_words)
   tfidf = {}
   for word in term_frequency:
-    tf = term_frequency[word]
-    idf = inverse_document_frequency[word]
-    tfidf[word] = tf * idf
+    if word in inverse_document_frequency:
+      tf = term_frequency[word]
+      idf = inverse_document_frequency[word]
+      tfidf[word] = tf * idf
+      
   return tfidf
 
 def calculate_tfidf_for_all_movies(all_movies_words,inverse_document_frequency):
@@ -78,27 +74,36 @@ def calculate_tfidf_for_all_movies(all_movies_words,inverse_document_frequency):
   return movies_tfidf
 
 
-
-'''
-def main():
-  subtitles = load_subtitles()
-  all_movies_words = split_subtitles_into_words(subtitles)
-  number_of_movies = len(all_movies_words)
-  document_frequency = calculate_document_frequency(all_movies_words)
-  inverse_document_frequency = calculate_inverse_document_frequency(document_frequency,number_of_movies)
-  movies_tfidf = calculate_tfidf_for_all_movies(all_movies_words,inverse_document_frequency)
-'''
-
-def main():
-  dataset = load_dataset()
-  training_dataset,validation_dataset,test_dataset = split_dataset(dataset)
+def process_training_dataset(training_dataset):
   training_subtitles = training_dataset["full_subtitles"]
   all_training_movies_words = split_subtitles_into_words(training_subtitles)
   number_of_training_movies = len(all_training_movies_words)
   document_frequency = calculate_document_frequency(all_training_movies_words)
   inverse_document_frequency = calculate_inverse_document_frequency(document_frequency,number_of_training_movies)
   training_movies_tfidf = calculate_tfidf_for_all_movies(all_training_movies_words,inverse_document_frequency)
+  
+  return training_movies_tfidf,inverse_document_frequency
 
+def process_validation_dataset(validation_dataset, inverse_document_frequency):
+  validation_subtitles = validation_dataset["full_subtitles"]
+  all_validation_movies_words = split_subtitles_into_words(validation_subtitles)
+  validation_movies_tfidf = calculate_tfidf_for_all_movies(all_validation_movies_words,inverse_document_frequency)
+
+  return validation_movies_tfidf
+
+def process_test_dataset(test_dataset, inverse_document_frequency):
+  test_subtitles = test_dataset["full_subtitles"]
+  all_test_movies_words = split_subtitles_into_words(test_subtitles)
+  test_movies_tfidf = calculate_tfidf_for_all_movies(all_test_movies_words,inverse_document_frequency)
+
+  return test_movies_tfidf
+
+def main():
+  dataset = load_dataset()
+  training_dataset, validation_dataset, test_dataset = split_dataset(dataset)
+  training_movies_tfidf, inverse_document_frequency = process_training_dataset(training_dataset)
+  validation_movies_tfidf = process_validation_dataset(validation_dataset,inverse_document_frequency)
+  test_movies_tfidf = process_test_dataset(test_dataset,inverse_document_frequency)
 
 
 if __name__ == "__main__":
