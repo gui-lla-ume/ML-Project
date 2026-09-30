@@ -18,7 +18,9 @@ for i, movie in movies.iterrows():
   for genre in movie_genres:
     genres.add(genre["name"])
 
+i = 0
 for genre in genres:
-  file.write(f"{genre}\n")
+  i+=1
+  file.write(f"{i}.) {genre}\n")
   
 
