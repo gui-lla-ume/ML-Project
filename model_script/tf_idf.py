@@ -2,6 +2,7 @@
 import math
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import numpy as np
 PATH_TO_CSV = "../data-formation/dataset.csv"
 
 def load_dataset():
@@ -98,6 +99,23 @@ def process_test_dataset(test_dataset, inverse_document_frequency):
 
   return test_movies_tfidf
 
+def create_feature_matrix(movies_tfidf,feature_words):
+  number_of_movies = len(movies_tfidf)
+  number_of_words = len(feature_words)
+  feature_matrix = np.zeros((number_of_movies,number_of_words))
+  
+  word_positions = {}
+  for position in range(len(feature_words)):
+    word = feature_words[position]
+    word_positions[word] = position
+  for movie_position in range(len(movies_tfidf)):
+    current_movie_tfidf = movies_tfidf[movie_position]
+    for word in current_movie_tfidf:
+      word_position = word_positions[word]
+      feature_matrix[movie_position][word_position] = current_movie_tfidf[word]
+
+  return feature_matrix
+
 def main():
   dataset = load_dataset()
   training_dataset, validation_dataset, test_dataset = split_dataset(dataset)
@@ -105,6 +123,10 @@ def main():
   validation_movies_tfidf = process_validation_dataset(validation_dataset,inverse_document_frequency)
   test_movies_tfidf = process_test_dataset(test_dataset,inverse_document_frequency)
 
+  feature_words = list(inverse_document_frequency.keys())
+  X_training = create_feature_matrix(training_movies_tfidf,feature_words)
+  X_validation = create_feature_matrix(validation_movies_tfidf,feature_words)
+  X_test = create_feature_matrix(test_movies_tfidf,feature_words)
 
 if __name__ == "__main__":
   main()
