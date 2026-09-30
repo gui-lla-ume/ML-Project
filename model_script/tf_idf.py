@@ -1,12 +1,26 @@
 #python3 tf_idf.py
 import math
 import pandas as pd
+from sklearn.model_selection import train_test_split
 PATH_TO_CSV = "../data-formation/dataset.csv"
 
+'''
 def load_subtitles():
   dataset = pd.read_csv(PATH_TO_CSV)
   subtitles = dataset["full_subtitles"]
   return subtitles
+'''
+def load_dataset():
+  dataset = pd.read_csv(PATH_TO_CSV)
+  return dataset
+
+def split_dataset(dataset):
+  #make 70 training_dataset and 30 remaining_30
+  training_dataset, remaining_30 = train_test_split(dataset,test_size=0.30,random_state=10)
+  #make 15% for validation_dataset and 15% test_dataset out of remaining_dataset (30*0.50 =15)!
+  validation_dataset, test_dataset = train_test_split(remaining_30,test_size=0.50,random_state=10)
+  
+  return training_dataset,validation_dataset,test_dataset
 
 def split_subtitles_into_words(subtitles):
   all_movies_words = []
@@ -65,7 +79,7 @@ def calculate_tfidf_for_all_movies(all_movies_words,inverse_document_frequency):
 
 
 
-
+'''
 def main():
   subtitles = load_subtitles()
   all_movies_words = split_subtitles_into_words(subtitles)
@@ -73,6 +87,19 @@ def main():
   document_frequency = calculate_document_frequency(all_movies_words)
   inverse_document_frequency = calculate_inverse_document_frequency(document_frequency,number_of_movies)
   movies_tfidf = calculate_tfidf_for_all_movies(all_movies_words,inverse_document_frequency)
+'''
+
+def main():
+  dataset = load_dataset()
+  training_dataset,validation_dataset,test_dataset = split_dataset(dataset)
+  training_subtitles = training_dataset["full_subtitles"]
+  all_training_movies_words = split_subtitles_into_words(training_subtitles)
+  number_of_training_movies = len(all_training_movies_words)
+  document_frequency = calculate_document_frequency(all_training_movies_words)
+  inverse_document_frequency = calculate_inverse_document_frequency(document_frequency,number_of_training_movies)
+  training_movies_tfidf = calculate_tfidf_for_all_movies(all_training_movies_words,inverse_document_frequency)
+
+
 
 if __name__ == "__main__":
   main()
