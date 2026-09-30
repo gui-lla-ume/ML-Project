@@ -5,7 +5,8 @@ creates: A txt file with all the existing movies inside the csv.
 
 import pandas as pd
 
-PATH_TO_CSV = "data-formation/dataset_films_clean.csv"
+PATH_TO_CSV = "data-formation/dataset.csv"
+#PATH_TO_CSV = "data-formation/dataset_films_clean.csv"
 
 file = open("helper_scripts/output/list_of_all_movies.txt","w")
 movies = pd.read_csv(PATH_TO_CSV)
