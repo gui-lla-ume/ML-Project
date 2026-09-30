@@ -1,7 +1,4 @@
-movies_subtitles.csv
-movies_meta.csv
-dataset_films_clean.csv
-dataset.csv
+*.csv
 __pycache__/
 .venv/
 .DS_Store
