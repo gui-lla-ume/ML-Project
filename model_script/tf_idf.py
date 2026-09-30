@@ -119,6 +119,7 @@ def create_feature_matrix(movies_tfidf,feature_words):
 def main():
   dataset = load_dataset()
   training_dataset, validation_dataset, test_dataset = split_dataset(dataset)
+  
   training_movies_tfidf, inverse_document_frequency = process_training_dataset(training_dataset)
   validation_movies_tfidf = process_validation_dataset(validation_dataset,inverse_document_frequency)
   test_movies_tfidf = process_test_dataset(test_dataset,inverse_document_frequency)
