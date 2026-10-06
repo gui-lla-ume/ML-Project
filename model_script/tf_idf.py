@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
 PATH_TO_CSV = "../data-formation/dataset.csv"
+WORD_APPEARS_IN_MOVIES_MIN = 10
+MAX_APPEARENCES_MOVIES_ALLOWANCE_PERCENTAGE = 0.90
 
 def load_dataset():
   dataset = pd.read_csv(PATH_TO_CSV)
@@ -37,7 +39,7 @@ def calculate_document_frequency(all_movies_words):
 
   #print(max(document_frequency, key=document_frequency.get))
   return document_frequency
-
+'''
 def calculate_inverse_document_frequency(document_frequency,number_of_movies):
   inverse_document_frequency = {}
   for word in document_frequency:
@@ -45,6 +47,21 @@ def calculate_inverse_document_frequency(document_frequency,number_of_movies):
     idf = math.log(number_of_movies/df)
     inverse_document_frequency[word] = idf
   return inverse_document_frequency
+'''
+def calculate_inverse_document_frequency(document_frequency, number_of_movies):
+  inverse_document_frequency = {}
+  for word in document_frequency:
+    df = document_frequency[word]
+    if df < WORD_APPEARS_IN_MOVIES_MIN:
+      continue
+    if df > number_of_movies * MAX_APPEARENCES_MOVIES_ALLOWANCE_PERCENTAGE:
+      continue
+    idf = math.log(number_of_movies / df)
+    inverse_document_frequency[word] = idf
+
+  return inverse_document_frequency
+
+
 
 #Basically how often occurs one word in specific movie.
 def calculate_term_frequency(current_movie_words):
